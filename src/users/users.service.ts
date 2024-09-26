@@ -17,7 +17,6 @@ export class UserService {
   async create(createUserDto: CreateUserDto): Promise<User> {
     const hashedPassword = await bcrypt.hash(createUserDto.password, 10);
     const user = this.userRepository.create({
-      id: uuid(),
       ...createUserDto,
       password: hashedPassword,
     });
@@ -31,11 +30,16 @@ export class UserService {
   async findOneById(id: string): Promise<User | undefined> {
     // Convert the string ID to ObjectId
     let _result = await this.userRepository.findOne({ where: { _id: new ObjectId(id) } });
-    console.log(_result)
     return _result;
   }
 
   async findAll() {
     return this.userRepository.find();
+  }
+
+  async delete(id: string): Promise<void> {
+    // Convert the string ID to ObjectId
+    const objectId = new ObjectId(id);
+    await this.userRepository.delete({ id: objectId }); // Match the 'id' field
   }
 }
