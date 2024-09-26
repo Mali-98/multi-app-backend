@@ -1,11 +1,18 @@
 import { Module } from '@nestjs/common';
-import { MongooseModule } from '@nestjs/mongoose';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { UserModule } from './users/user.module';
 
 @Module({
   imports: [
-    MongooseModule.forRoot('mongodb://root:password@localhost:27017', {
-      authSource: 'admin',  // Keep this if you are using authentication
+    TypeOrmModule.forRoot({
+      type: 'mongodb',
+      url: 'mongodb://root:password@localhost:27017/mydb',
+      database: 'mydb',
+      synchronize: true, // Turn off in production
+      useUnifiedTopology: true,
+      entities: [__dirname + '/**/*.entity{.ts,.js}'],
     }),
+    UserModule,
   ],
 })
 export class AppModule { }
