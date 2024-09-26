@@ -28,7 +28,6 @@ export class UserService {
   }
 
   async findOneById(id: string): Promise<User | undefined> {
-    // Convert the string ID to ObjectId
     let _result = await this.userRepository.findOne({ where: { _id: new ObjectId(id) } });
     return _result;
   }
@@ -38,7 +37,6 @@ export class UserService {
   }
 
   async delete(id: string): Promise<void> {
-    // Convert the string ID to ObjectId
     const objectId = new ObjectId(id);
     await this.userRepository.delete({ id: objectId }); // Match the 'id' field
   }
