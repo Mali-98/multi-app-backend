@@ -1,9 +1,9 @@
-import { Entity, ObjectIdColumn, ObjectId, Column, PrimaryGeneratedColumn } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, PrimaryColumn } from 'typeorm';
 
 @Entity({ name: 'user' })
 export class User {
-    @ObjectIdColumn() // Use ObjectIdColumn for MongoDB
-    id: ObjectId; // Change the type to ObjectID
+    @PrimaryColumn()
+    id: string; // Change the type to string
 
     @Column({ unique: true })
     username: string;
