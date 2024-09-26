@@ -12,7 +12,7 @@ export class UserController {
     return this.userService.create(createUserDto);
   }
 
-  @Get('/:userId')
+  @Get(':/userId')
   async findOne(@Param('userId') userId: string) {
     return this.userService.findOne(userId);
   }

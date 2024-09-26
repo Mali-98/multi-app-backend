@@ -6,7 +6,6 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { CreateAuthDto } from './dto/create-auth.dto'; // Ensure you have a DTO for registration
 import { JwtService } from '@nestjs/jwt'; // Import JWT service for token generation
-import { v4 as uuid } from 'uuid';
 
 @Injectable()
 export class AuthService {
@@ -17,17 +16,16 @@ export class AuthService {
     private jwtService: JwtService // Inject JWT service
   ) { }
 
-  async create(createAuthDto: CreateAuthDto): Promise<any> {
+  async create(createAuthDto: CreateAuthDto): Promise<User> {
     const hashedPassword = await bcrypt.hash(createAuthDto.password, 10);
     const user = this.userRepository.create({
-      id: uuid(),
       ...createAuthDto,
       password: hashedPassword,
     });
     return this.userRepository.save(user);
   }
 
-  async validateUser(username: string, password: string): Promise<any> {
+  async validateUser(username: string, password: string): Promise<User | null> {
     const user = await this.userService.findOne(username);
     if (user && (await bcrypt.compare(password, user.password))) {
       return user;
