@@ -8,7 +8,6 @@ import { AuthModule } from './auth/auth.module';
     TypeOrmModule.forRoot({
       type: 'mongodb',
       url: 'mongodb://root:password@localhost:27017',
-      database: 'mydb',
       synchronize: true,
       useUnifiedTopology: true,
       entities: [__dirname + '/**/*.entity{.ts,.js}'],
