@@ -13,8 +13,8 @@ export class UserController {
   }
 
   @Get('/:userId')
-  async findOne(@Param('userId') userId: string) {
-    return this.userService.findOne(userId);
+  async findOneById(@Param('userId') userId: string) {
+    return this.userService.findOneById(userId);
   }
 
   @Get()

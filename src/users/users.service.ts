@@ -1,16 +1,17 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { ObjectId, Repository } from 'typeorm';
+import { MongoRepository } from 'typeorm';
 import { User } from 'src/users/entities/user.entity';
 import { CreateUserDto } from 'src/users/dto/create-user.dto';
 import * as bcrypt from 'bcryptjs';
 import { v4 as uuid } from 'uuid';
+import { ObjectId } from 'mongodb';
 
 @Injectable()
 export class UserService {
   constructor(
     @InjectRepository(User)
-    private readonly userRepository: Repository<User>,
+    private readonly userRepository: MongoRepository<User>,
   ) { }
 
   async create(createUserDto: CreateUserDto): Promise<User> {
@@ -23,10 +24,15 @@ export class UserService {
     return this.userRepository.save(user);
   }
 
-  async findOne(id: string): Promise<User | undefined> {
+  async findOne(username: string): Promise<User | undefined> {
+    return this.userRepository.findOneBy({ username });
+  }
+
+  async findOneById(id: string): Promise<User | undefined> {
     // Convert the string ID to ObjectId
-    const objectId = new ObjectId(id);
-    return this.userRepository.findOneBy({ id: objectId });
+    let _result = await this.userRepository.findOne({ where: { _id: new ObjectId(id) } });
+    console.log(_result)
+    return _result;
   }
 
   async findAll() {
