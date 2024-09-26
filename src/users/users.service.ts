@@ -26,4 +26,8 @@ export class UserService {
   async findOne(username: string): Promise<User | undefined> {
     return this.userRepository.findOneBy({ username });
   }
+
+  async findAll() {
+    return this.userRepository.find();
+  }
 }
