@@ -2,8 +2,8 @@ import { Entity, ObjectIdColumn, ObjectId, Column, PrimaryGeneratedColumn } from
 
 @Entity()
 export class User {
-    @PrimaryGeneratedColumn('uuid')
-    id: string;
+    @ObjectIdColumn() // Use ObjectIdColumn for MongoDB
+    id: ObjectId; // Change the type to ObjectID
 
     @Column({ unique: true })
     username: string;
