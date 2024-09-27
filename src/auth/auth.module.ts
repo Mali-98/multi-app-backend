@@ -15,7 +15,7 @@ import { LocalStrategy } from 'src/auth/local-strategy'; // Create this strategy
     PassportModule,
     JwtModule.register({
       secret: 'hamada_1234', // Use a strong secret key in production
-      signOptions: { expiresIn: '60s' }, // Set token expiration
+      signOptions: { expiresIn: '300s' }, // Set token expiration
     }),
   ],
   controllers: [AuthController],
