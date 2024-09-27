@@ -4,7 +4,7 @@ import { Role } from './roles.enum';
 import { JwtService } from '@nestjs/jwt';
 import { ObjectId } from 'mongodb';
 
-interface JwtPayload {
+export interface JwtPayload {
     username: string;
     role: Role;
     id: ObjectId;
