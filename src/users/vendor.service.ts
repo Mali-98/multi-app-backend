@@ -2,9 +2,10 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { MongoRepository } from 'typeorm';
 import { User } from 'src/users/entities/user.entity';
-import { CreateUserDto } from 'src/users/dto/create-user.dto';
 import * as bcrypt from 'bcryptjs';
 import { ObjectId } from 'mongodb';
+import { CreateVendorDto } from './dto/create-vendor.dto';
+import { Role } from 'src/auth/decorator/roles.enum';
 
 @Injectable()
 export class VendorService {
@@ -13,11 +14,12 @@ export class VendorService {
         private readonly userRepository: MongoRepository<User>,
     ) { }
 
-    async createVendor(createUserDto: CreateUserDto): Promise<User> {
-        const hashedPassword = await bcrypt.hash(createUserDto.password, 10);
+    async createVendor(createVendorDto: CreateVendorDto): Promise<User> {
+        const hashedPassword = await bcrypt.hash(createVendorDto.password, 10);
         const user = this.userRepository.create({
-            ...createUserDto,
+            ...createVendorDto,
             password: hashedPassword,
+            role: Role.Vendor
         });
         return this.userRepository.save(user);
     }
