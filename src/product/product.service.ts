@@ -27,7 +27,8 @@ export class ProductService {
   }
 
   async findProductById(id: string): Promise<Product> {
-    return this.productRepository.findOneBy({ id });
+    let _result = await this.productRepository.findOne({ where: { _id: new ObjectId(id) } });
+    return _result;
   }
 
   async deleteProduct(id: string): Promise<void> {
