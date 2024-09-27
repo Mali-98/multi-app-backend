@@ -22,7 +22,6 @@ export class VendorController {
         return this.vendorService.findOneById(userId);
     }
 
-    @Roles(Role.Vendor) // Only allow admins to access this route
     @Get()
     async findAll() {
         return this.vendorService.findAllVendors();

@@ -1,9 +1,14 @@
-import { Controller, Post, Body, Get, Param, Delete } from '@nestjs/common';
+import { Controller, Post, Body, Get, Param, Delete, UseGuards } from '@nestjs/common';
 import { UserService } from 'src/users/users.service';
 import { CreateUserDto } from 'src/users/dto/create-user.dto';
 import { User } from 'src/users/entities/user.entity';
+import { Roles } from 'src/auth/decorator/roles.decorator';
+import { Role } from 'src/auth/decorator/roles.enum';
+import { RolesGuard } from 'src/auth/decorator/roles.guard';
 
 @Controller('users')
+@Roles(Role.Admin) // Only allow admins to access this route
+@UseGuards(RolesGuard) // Apply the guard at the controller level
 export class UserController {
   constructor(private readonly userService: UserService) { }
 
