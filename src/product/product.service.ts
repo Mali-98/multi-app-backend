@@ -31,6 +31,11 @@ export class ProductService {
     return _result;
   }
 
+  async findProductsByVendorId(vendorId: ObjectId): Promise<Product[]> {
+    return this.productRepository.find({ where: { vendorId } }); // Adjust according to your schema
+  }
+
+
   async deleteProduct(id: string): Promise<void> {
     await this.productRepository.delete(id);
   }

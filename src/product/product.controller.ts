@@ -36,6 +36,12 @@ export class ProductController {
     return this.productService.findProductById(id);
   }
 
+  @Get('vendor/:vendorId') // New endpoint to get products by vendor ID
+  async findProductsByVendorId(@Param('vendorId') vendorId: string) {
+    const id = new ObjectId(vendorId); // Convert vendorId to ObjectId
+    return this.productService.findProductsByVendorId(id);
+  }
+
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateProductDto: UpdateProductDto) {
     return this.productService.updateProduct(id, updateProductDto);
