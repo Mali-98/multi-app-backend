@@ -27,9 +27,7 @@ export class RolesGuard implements CanActivate {
         }
 
         const request = context.switchToHttp().getRequest();
-        console.log(request.headers);
         const token = request.headers['authorization']; // Adjusted to extract token from custom header
-        console.log(token)
 
         if (!token) {
             console.log('No token found, access denied.'); // Log if no token is present
