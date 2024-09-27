@@ -1,3 +1,4 @@
+import { Role } from 'src/auth/decorator/roles.enum';
 import { Entity, ObjectIdColumn, ObjectId, Column, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity({ name: 'user' })
@@ -11,6 +12,9 @@ export class User {
     @Column()
     password: string;
 
-    @Column()
-    role: string; // e.g., 'admin', 'vendor', 'rider'
+    @Column({
+        type: 'enum',
+        enum: Role,
+    })
+    role: Role;
 }
