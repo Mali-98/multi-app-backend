@@ -26,6 +26,7 @@ export class ProductController {
     return this.productService.createProduct(createProductDto, vendorId);
   }
 
+  @Roles(Role.Vendor, Role.Consumer)
   @Get()
   findAll() {
     return this.productService.findAllProducts();
