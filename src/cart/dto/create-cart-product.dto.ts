@@ -1,9 +1,6 @@
 import { IsNotEmpty, IsMongoId, IsInt, Min } from 'class-validator';
 
 export class CreateCartProductDto {
-    @IsNotEmpty()
-    @IsMongoId()
-    cartId: string; // Cart to which the product is being added
 
     @IsNotEmpty()
     @IsMongoId()
