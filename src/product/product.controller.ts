@@ -17,12 +17,9 @@ export class ProductController {
   ) { }
 
   @Post()
-  async create(@Body() createProductDto: CreateProductDto) {
-    const vendor = await this.vendorService.findOneById(createProductDto.vendorId);
-    if (!vendor) {
-      throw new Error('Vendor not found'); // Handle the error as per your requirements
-    }
-    const vendorId = new ObjectId(createProductDto.vendorId); // Convert vendorId
+  async create(@Body() createProductDto: CreateProductDto, @Request() req) {
+    const vendor_id = req.user.id;
+    const vendorId = new ObjectId(vendor_id); // Convert vendorId
     return this.productService.createProduct(createProductDto, vendorId);
   }
 

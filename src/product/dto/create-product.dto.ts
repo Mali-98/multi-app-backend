@@ -16,8 +16,4 @@ export class CreateProductDto {
     @IsNumber()
     @Min(0)
     stock: number;
-
-    @IsString()
-    @IsNotEmpty()
-    vendorId: string; // Ensure the vendorId is passed as a string (MongoDB ObjectId)
 }
