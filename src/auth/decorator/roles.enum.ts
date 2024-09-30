@@ -5,4 +5,5 @@ export enum Role {
     Rider = 'rider',
     TechSupport = 'tech_support',
     Sales = 'sales',
+    Consumer = 'consumer'
 }
