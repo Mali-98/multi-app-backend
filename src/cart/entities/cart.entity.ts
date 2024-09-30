@@ -8,7 +8,7 @@ export class Cart {
     id: ObjectId;
 
     @Column()
-    userId: ObjectId; // Foreign key for the User
+    userId: string; // Foreign key for the User
 
     @Column({ type: 'decimal', default: 0 })
     totalPrice: number; // Total price of products in the cart

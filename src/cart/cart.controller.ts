@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards, Request } from '@nestjs/common';
 import { CartService } from './cart.service';
 import { CreateCartDto } from './dto/create-cart.dto';
 import { UpdateCartDto } from './dto/update-cart.dto';
@@ -24,14 +24,31 @@ export class CartController {
     return this.cartService.create(createCartDto);
   }
 
+  // @Get()
+  // findAll() {
+  //   return this.cartService.findAll();
+  // }
+
   @Get()
-  findAll() {
-    return this.cartService.findAll();
+  async findAllUnderConsumer(@Request() req) {
+    const userId = req.user.id; // Get the user's ID from the request object
+    return this.cartService.findAllByUserId(userId); // Fetch carts created by this user
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.cartService.findOne(id);
+  async findOne(@Param('id') id: string, @Request() req) {
+    const user = req.user; // Assuming `req.user` contains the authenticated user
+    const userId = user.id;
+
+    // Fetch the cart by ID
+    const cart = await this.cartService.findOne(id);
+
+    // Check if the cart belongs to the authenticated user
+    if (cart.userId.toString() !== userId.toString()) {
+      throw new Error('You are not authorized to view this cart'); // Handle unauthorized access
+    }
+
+    return cart;
   }
 
   // @Patch(':id')
@@ -40,7 +57,19 @@ export class CartController {
   // }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
+  async remove(@Param('id') id: string, @Request() req) {
+    const user = req.user; // Assuming `req.user` contains the authenticated user
+    const userId = user.id;
+
+    // Fetch the cart by ID
+    const cart = await this.cartService.findOne(id);
+
+    // Check if the cart belongs to the authenticated user
+    if (cart.userId.toString() !== userId.toString()) {
+      throw new Error('You are not authorized to delete this cart'); // Handle unauthorized access
+    }
+
+    // Proceed to delete the cart if it belongs to the user
     return this.cartService.delete(id);
   }
 }

@@ -18,7 +18,7 @@ export class CartService {
     const { userId } = createCartDto;
 
     const cart = this.cartRepository.create({
-      userId: new ObjectId(userId),
+      ...CreateCartDto,
       totalPrice: 0, // Initial value, products management will update this
     });
 
@@ -28,6 +28,11 @@ export class CartService {
   // Find all carts
   async findAll(): Promise<Cart[]> {
     return this.cartRepository.find();
+  }
+
+  async findAllByUserId(userId: string): Promise<Cart[]> {
+    console.log(userId);
+    return this.cartRepository.find({ where: { userId: new ObjectId(userId) } }); // Fetch all carts for the user
   }
 
   // Find a specific cart by ID

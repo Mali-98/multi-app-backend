@@ -45,6 +45,9 @@ export class RolesGuard implements CanActivate {
 
         const hasRole = requiredRoles.includes(user.role);
         console.log('User Role:', user.role, 'Access Granted:', hasRole); // Log user role and access decision
-        return hasRole; // Return true if the user has the required role
+        request.user = user; // Attach the decoded user object (including user ID) to the request object
+
+        return requiredRoles.includes(user.role);
+        //return hasRole; // Return true if the user has the required role
     }
 }
