@@ -1,4 +1,4 @@
-import { Controller, Post, Body, Param, Request, UseGuards } from '@nestjs/common';
+import { Controller, Post, Body, Param, Request, UseGuards, Delete } from '@nestjs/common';
 import { CartProductService } from './cart-product.service'; // Import your CartProductService
 import { CreateCartProductDto } from './dto/create-cart-product.dto'; // DTO for adding products to cart
 import { Roles } from 'src/auth/decorator/roles.decorator';
@@ -19,5 +19,11 @@ export class CartProductController {
     ) {
         const userId = req.user.id; // Get the user's ID from the request object
         return this.cartProductService.addProductToCart(cartId, addProductToCartDto, userId); // Add product to the cart
+    }
+
+    @Delete('/:productId')
+    async removeProductFromCart(@Param('cartId') cartId: string, @Param('productId') productId: string, @Request() req) {
+        const userId = req.user.id; // Get the user's ID from the request object
+        return this.cartProductService.removeProductFromCart(cartId, productId, userId);
     }
 }

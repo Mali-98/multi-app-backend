@@ -6,6 +6,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { CreateAuthDto } from './dto/create-auth.dto'; // Ensure you have a DTO for registration
 import { JwtService } from '@nestjs/jwt'; // Import JWT service for token generation
+import { Role } from './decorator/roles.enum';
 
 @Injectable()
 export class AuthService {
@@ -21,6 +22,7 @@ export class AuthService {
     const user = this.userRepository.create({
       ...createAuthDto,
       password: hashedPassword,
+      role: Role.Consumer
     });
     return this.userRepository.save(user);
   }
