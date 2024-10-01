@@ -8,6 +8,8 @@ import {
   Delete,
   UseGuards,
   Request,
+  NotFoundException,
+  UnauthorizedException,
 } from '@nestjs/common';
 import { CartService } from './cart.service';
 import { CreateCartDto } from './dto/create-cart.dto';
@@ -30,7 +32,7 @@ export class CartController {
   async create(@Body() createCartDto: CreateCartDto) {
     const consumer = await this.userService.findOneById(createCartDto.userId);
     if (!consumer) {
-      throw new Error('Consumer not found'); // Handle the error as per your requirements
+      throw new NotFoundException('Consumer not found');
     }
     return this.cartService.create(createCartDto);
   }
@@ -56,7 +58,9 @@ export class CartController {
 
     // Check if the cart belongs to the authenticated user
     if (cart.userId.toString() !== userId.toString()) {
-      throw new Error('You are not authorized to view this cart'); // Handle unauthorized access
+      throw new UnauthorizedException(
+        'You are not authorized to view this cart',
+      );
     }
 
     return cart;
@@ -77,7 +81,9 @@ export class CartController {
 
     // Check if the cart belongs to the authenticated user
     if (cart.userId.toString() !== userId.toString()) {
-      throw new Error('You are not authorized to delete this cart'); // Handle unauthorized access
+      throw new UnauthorizedException(
+        'You are not authorized to delete this cart',
+      );
     }
 
     // Proceed to delete the cart if it belongs to the user

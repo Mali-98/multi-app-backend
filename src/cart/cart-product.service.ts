@@ -1,4 +1,8 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Cart } from './entities/cart.entity'; // Import your Cart entity
 import { Product } from 'src/product/entities/product.entity'; // Import your Product entity
@@ -43,7 +47,7 @@ export class CartProductService {
 
     // Ensure the product has enough stock
     if (product.stock < addProductToCartDto.quantity) {
-      throw new Error('Insufficient stock for the product');
+      throw new BadRequestException('Insufficient stock for the product');
     }
 
     // Check if the product already exists in the cart
