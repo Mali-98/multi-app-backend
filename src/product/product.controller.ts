@@ -1,4 +1,14 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, Request, UseGuards } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+  Request,
+  UseGuards,
+} from '@nestjs/common';
 import { ProductService } from './product.service';
 import { CreateProductDto } from './dto/create-product.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
@@ -12,9 +22,10 @@ import { VendorService } from 'src/users/vendor.service';
 @Roles(Role.Vendor) // Only allow admins to access this route
 @UseGuards(RolesGuard) // Apply the guard at the controller level
 export class ProductController {
-  constructor(private readonly productService: ProductService,
+  constructor(
+    private readonly productService: ProductService,
     private vendorService: VendorService,
-  ) { }
+  ) {}
 
   @Post()
   async create(@Body() createProductDto: CreateProductDto, @Request() req) {
@@ -29,6 +40,7 @@ export class ProductController {
     return this.productService.findAllProducts();
   }
 
+  @Roles(Role.Vendor, Role.Consumer)
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.productService.findProductById(id);

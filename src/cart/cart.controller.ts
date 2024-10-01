@@ -1,4 +1,14 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards, Request } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+  UseGuards,
+  Request,
+} from '@nestjs/common';
 import { CartService } from './cart.service';
 import { CreateCartDto } from './dto/create-cart.dto';
 import { UpdateCartDto } from './dto/update-cart.dto';
@@ -11,9 +21,10 @@ import { UserService } from 'src/users/users.service';
 @Roles(Role.Consumer) // Only allow admins to access this route
 @UseGuards(RolesGuard) // Apply the guard at the controller level
 export class CartController {
-  constructor(private readonly cartService: CartService,
+  constructor(
+    private readonly cartService: CartService,
     private userService: UserService,
-  ) { }
+  ) {}
 
   @Post()
   async create(@Body() createCartDto: CreateCartDto) {
