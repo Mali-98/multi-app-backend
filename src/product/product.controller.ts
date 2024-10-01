@@ -25,7 +25,7 @@ export class ProductController {
   constructor(
     private readonly productService: ProductService,
     private vendorService: VendorService,
-  ) {}
+  ) { }
 
   @Post()
   async create(@Body() createProductDto: CreateProductDto, @Request() req) {
@@ -34,13 +34,13 @@ export class ProductController {
     return this.productService.createProduct(createProductDto, vendorId);
   }
 
-  @Roles(Role.Vendor, Role.Consumer)
+  @Roles(Role.Vendor, Role.Consumer, Role.Admin)
   @Get()
   findAll() {
     return this.productService.findAllProducts();
   }
 
-  @Roles(Role.Vendor, Role.Consumer)
+  @Roles(Role.Vendor, Role.Consumer, Role.Admin)
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.productService.findProductById(id);

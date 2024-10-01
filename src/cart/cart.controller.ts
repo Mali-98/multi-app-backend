@@ -26,7 +26,7 @@ export class CartController {
   constructor(
     private readonly cartService: CartService,
     private userService: UserService,
-  ) {}
+  ) { }
 
   @Post()
   async create(@Body() createCartDto: CreateCartDto) {
@@ -37,10 +37,11 @@ export class CartController {
     return this.cartService.create(createCartDto);
   }
 
-  // @Get()
-  // findAll() {
-  //   return this.cartService.findAll();
-  // }
+  @Roles(Role.Admin)
+  @Get()
+  findAll() {
+    return this.cartService.findAll();
+  }
 
   @Get()
   async findAllUnderConsumer(@Request() req) {
